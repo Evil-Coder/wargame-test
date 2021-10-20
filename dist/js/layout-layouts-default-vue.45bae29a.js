@@ -1,0 +1,2 @@
+(window["webpackJsonp"]=window["webpackJsonp"]||[]).push([["layout-layouts-default-vue"],{"619a":function(t,e,n){"use strict";n("a11e")},"7b3d":function(t,e,n){"use strict";n.r(e);var a=function(){var t=this,e=t.$createElement,n=t._self._c||e;return n("div",{staticClass:"sign-layout"},[n("router-view")],1)},u=[],s={name:"SignLayout"},i=s,l=(n("619a"),n("2877")),o=Object(l["a"])(i,a,u,!1,null,null,null);e["default"]=o.exports},a11e:function(t,e,n){}}]);
+//# sourceMappingURL=layout-layouts-default-vue.45bae29a.js.map
