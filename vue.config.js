@@ -3,6 +3,8 @@ const path = require("path");
 const resolve = (dir) => path.resolve(__dirname, dir);
 
 module.exports = {
+  publicPath: '/wargame-test/',
+
   chainWebpack: (config) => {
     function addLoader(params) {
       params.types.forEach((type) => {
