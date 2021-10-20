@@ -9,7 +9,7 @@ Vue.use(VueRouter);
 
 const routes = [
   {
-    path: "/enter",
+    path: "/",
     name: "enter",
     component: EnterPage,
   },

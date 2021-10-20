@@ -1,10 +1,16 @@
 <template>
-  <section class="enter-page"></section>
+  <section class="enter-page">
+    <IndicatorElement />
+  </section>
 </template>
 
 <script>
+// eslint-disable-next-line import/extensions,import/no-unresolved
+import IndicatorElement from "../components/IndicatorElement";
+
 export default {
   name: "EnterPage",
+  components: { IndicatorElement },
 };
 </script>
 
