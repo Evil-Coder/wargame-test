@@ -4,8 +4,22 @@ import Vuex from "vuex";
 Vue.use(Vuex);
 
 export default new Vuex.Store({
-  state: {},
-  mutations: {},
+  state: {
+    selectIndicator: 0,
+  },
+  getters: {
+    getSelectedIndicator: s => {
+      return s.selectIndicator
+    }
+  },
+  mutations: {
+    setSelectedIndicator(s, p) {
+      s.selectIndicator = p
+    },
+    setDefaultIndicator(s) {
+      s.selectIndicator = 0
+    },
+  },
   actions: {},
   modules: {},
 });

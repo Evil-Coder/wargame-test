@@ -52,19 +52,11 @@ export default {
       },
 			required: true
     },
-		selectElement: {
-			type: Number,
-			default: 0,
-			required: true
-		},
-		elementIndex: {
-			type: Number,
-			default: 1,
-			required: true
-		}
   },
   data() {
     return {
+			elementId: new Date(),
+
       indicatorElements: false,
 
 			indicatorInfo: {
@@ -77,9 +69,13 @@ export default {
     };
   },
 	computed: {
+		selectedIndicator() {
+			return this.$store.getters.getSelectedIndicator
+		},
+
 		hideIntegration() {
-			const elementWasChosen = this.selectElement !== 0
-			const notCurrentElement = this.selectElement !== this.elementIndex
+			const elementWasChosen = this.selectedIndicator !== 0
+			const notCurrentElement = this.selectedIndicator !== this.elementId
 
 			return elementWasChosen && notCurrentElement
 		},
@@ -129,7 +125,7 @@ export default {
 			this.indicatorInfo.show = false
 			this.showNotSelected(e)
 
-			this.$emit('unchoose')
+			this.$store.commit('setDefaultIndicator', 0)
 		},
 		setInfoPosition(e) {
 			const left = (e.offsetX === undefined) ? e.layerX : e.offsetX;
@@ -156,7 +152,7 @@ export default {
 			this.hideNotSelected(e)
 			this.showInfo()
 
-			this.$emit('hoverIndicator', this.elementIndex)
+			this.$store.commit('setSelectedIndicator', this.elementId)
 		},
 
 		// Hide not selected
