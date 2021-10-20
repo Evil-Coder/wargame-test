@@ -12,7 +12,7 @@
 			</p>
 
 			<div class="indicator__indicator" ref="indicator"
-					 @mousemove.prevent="setInfoPosition">
+					 @mousemove="setInfoPosition">
 
 				<div class="indicator__item indicator__item_low image"
 						 data-name="Low"
@@ -111,6 +111,7 @@ export default {
 				currentPercent += this.elementsWidth[i]
 
         el.dataset.percent = currentElementPercent
+        el.dataset.employees = this.calculateEmployeesPercent(+currentElementPercent)
       });
     },
 
@@ -150,11 +151,7 @@ export default {
 		},
 		infoAnimation(e) {
 			if (this.indicatorInfo.name !== e.target.dataset.name) {
-				this.setInfo({
-					name: e.target.dataset.name,
-					percent: e.target.dataset.percent,
-					employees: this.calculateEmployeesPercent(e.target.dataset.percent)
-				})
+				this.setInfo(e.target.dataset)
 			}
 			this.hideNotSelected(e)
 			this.showInfo()
