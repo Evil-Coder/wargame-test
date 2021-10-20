@@ -162,7 +162,6 @@ export default {
 			this.indicatorElements.forEach(el => el.style.opacity = '1')
 		},
 		hideNotSelected(e) {
-			this.$refs.indicatorName.style.opacity = '0.08'
 			this.indicatorElements.forEach(el => el.style.opacity = '0.08')
 			e.target.style.opacity = '1'
 		},
@@ -199,6 +198,7 @@ $not-hover: #808080
 		opacity: 0.08
 
 	&__name
+		width: 110px
 		color: #1A1A1A
 
 	&__indicator-container
