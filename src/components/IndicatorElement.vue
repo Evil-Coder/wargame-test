@@ -2,28 +2,30 @@
   <div class="indicator">
     <p class="indicator__name" v-html="name" />
 		<div class="indicator__indicator-container">
-			<template v-show="!indicatorInfo.show">
-				<p class="indicator__info-top"
-					 :class="[topInfoClass]">
-					{{indicatorInfo.name}} - {{indicatorInfo.percent}}%
-				</p>
-				<p class="indicator__info-bottom">{{indicatorInfo.employees}} employees</p>
-			</template>
+			<p class="indicator__info indicator__info_top" :class="[topInfoClass]"
+				 ref="topInfo" v-show="indicatorInfo.show">
+				{{indicatorInfo.name}} - {{indicatorInfo.percent}}%
+			</p>
+			<p class="indicator__info indicator__info_bottom"
+				 ref="bottomInfo" v-show="indicatorInfo.show">
+				{{indicatorInfo.employees}} employees
+			</p>
 
-			<div class="indicator__indicator" ref="indicator">
+			<div class="indicator__indicator" ref="indicator"
+					 @mousemove.prevent="setInfoPosition">
 
 				<div class="indicator__item indicator__item_low image"
 						 data-name="Low"
-						 @mouseenter="showInfo" @mouseleave=""/>
+						 @mouseenter="infoAnimation" @mouseleave="hideInfo" />
 				<div class="indicator__item indicator__item_middle image"
 						 data-name="Middle"
-						 @mouseenter="showInfo" @mouseleave=""/>
+						 @mouseenter="infoAnimation" @mouseleave="hideInfo" />
 				<div class="indicator__item indicator__item_high image"
 						 data-name="High"
-						 @mouseenter="showInfo" @mouseleave=""/>
+						 @mouseenter="infoAnimation" @mouseleave="hideInfo" />
 				<div class="indicator__item indicator__item_not image"
 						 data-name="Not Rated"
-						 @mouseenter="showInfo" @mouseleave=""/>
+						 @mouseenter="infoAnimation" @mouseleave="hideInfo" />
 			</div>
 		</div>
   </div>
@@ -36,16 +38,19 @@ export default {
     name: {
       type: String,
       default: "Name",
+			// required: true
     },
 		employees: {
       type: Number,
       default: 110,
+			// required: true
     },
     elementsWidth: {
       type: Array,
       default() {
-        return [1, 15, 15];
+        return [30, 15, 15];
       },
+			// required: true
     },
   },
   data() {
@@ -63,7 +68,7 @@ export default {
   },
 	computed: {
 		topInfoClass() {
-			return 'indicator__info-top_' + this.indicatorInfo.name.toLowerCase()
+			return 'indicator__info_' + this.indicatorInfo.name.toLowerCase()
 		}
 	},
   methods: {
@@ -80,6 +85,7 @@ export default {
         const smallestElementWidth = currentElementWidth < 8 ? 8 : currentElementWidth;
 
         el.style.left = currentLeft + "px";
+				el.dataset.left = currentLeft;
         el.style.width = smallestElementWidth + "px";
 
         currentLeft += smallestElementWidth;
@@ -94,16 +100,39 @@ export default {
 			this.indicatorInfo.percent = percent
 			this.indicatorInfo.employees = employees
 		},
-		showInfo(e) {
-			this.setInfo({
-				name: e.target.dataset.name,
-				percent: e.target.dataset.percent,
-				employees: this.calculateEmployeesPercent(e.target.dataset.percent)
-			})
-
+		showInfo() {
 			this.indicatorInfo.show = true
+		},
+		hideInfo() {
+			this.indicatorInfo.show = false
+		},
+		setInfoPosition(e) {
+			const left = (e.offsetX === undefined) ? e.layerX : e.offsetX;
+			const sumLeft = +e.target.dataset.left + left
+			const difRight = this.$refs.indicator.offsetWidth - sumLeft
 
-			console.log(this.indicatorInfo)
+			const borderViolation = this.calculateWidth(65) < sumLeft
+
+			if (!borderViolation) {
+				this.$refs.topInfo.style.left = sumLeft + "px"
+				this.$refs.bottomInfo.style.left = sumLeft + "px"
+			} else {
+				this.$refs.topInfo.style.left = "initial"
+				this.$refs.bottomInfo.style.left = "initial"
+
+				this.$refs.topInfo.style.right = difRight + "px"
+				this.$refs.bottomInfo.style.right = difRight + "px"
+			}
+		},
+		infoAnimation(e) {
+			if (this.indicatorInfo.name !== e.target.dataset.name) {
+				this.setInfo({
+					name: e.target.dataset.name,
+					percent: e.target.dataset.percent,
+					employees: this.calculateEmployeesPercent(e.target.dataset.percent)
+				})
+			}
+			this.showInfo()
 		},
 
     calculateWidth(percent) {
@@ -165,10 +194,12 @@ $not-hover: #808080
 			&:hover
 				background-color: $not-hover
 
-	&__info-top
+	&__info
 		position: absolute
-		top: -30px
+		width: max-content
 
+		&_top
+			top: -30px
 		&_low
 			color: $low
 		&_middle
@@ -178,7 +209,6 @@ $not-hover: #808080
 		&_not
 			color: $not-hover
 
-	&__info-bottom
-		position: absolute
-		top: 20px
+		&_bottom
+			top: 20px
 </style>
