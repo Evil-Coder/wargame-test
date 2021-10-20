@@ -20,4 +20,5 @@ export default {
 	flex-direction: column
 	justify-content: space-between
 	flex-grow: 1
+	padding: 100px
 </style>
