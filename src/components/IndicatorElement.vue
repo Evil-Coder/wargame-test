@@ -1,6 +1,6 @@
 <template>
   <div class="indicator">
-    <p class="indicator__name" v-html="name" />
+    <p class="indicator__name" v-html="name" ref="indicatorName"/>
 		<div class="indicator__indicator-container">
 			<p class="indicator__info indicator__info_top" :class="[topInfoClass]"
 				 ref="topInfo" v-show="indicatorInfo.show">
@@ -103,8 +103,9 @@ export default {
 		showInfo() {
 			this.indicatorInfo.show = true
 		},
-		hideInfo() {
+		hideInfo(e) {
 			this.indicatorInfo.show = false
+			this.showNotSelected(e)
 		},
 		setInfoPosition(e) {
 			const left = (e.offsetX === undefined) ? e.layerX : e.offsetX;
@@ -132,7 +133,18 @@ export default {
 					employees: this.calculateEmployeesPercent(e.target.dataset.percent)
 				})
 			}
+			this.hideNotSelected(e)
 			this.showInfo()
+		},
+
+		showNotSelected(e) {
+			this.$refs.indicatorName.style.opacity = '1'
+			this.indicatorElements.forEach(el => el.style.opacity = '1')
+		},
+		hideNotSelected(e) {
+			this.$refs.indicatorName.style.opacity = '0.08'
+			this.indicatorElements.forEach(el => el.style.opacity = '0.08')
+			e.target.style.opacity = '1'
 		},
 
     calculateWidth(percent) {
