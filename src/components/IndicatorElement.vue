@@ -42,7 +42,7 @@ export default {
     },
 		employees: {
       type: Number,
-      default: 110,
+      default: 100,
 			required: true
     },
     elementsWidth: {
@@ -75,7 +75,7 @@ export default {
 		// Elements
 
     setIndicatorElements() {
-      this.indicatorElements = document.querySelectorAll(".indicator__item");
+      this.indicatorElements = this.$refs.indicator.querySelectorAll(".indicator__item");
     },
     setStylesElements(elements) {
       let currentLeft = 0;

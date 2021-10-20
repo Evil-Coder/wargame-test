@@ -1,11 +1,13 @@
 <template>
   <section class="enter-page">
-    <IndicatorElement />
+    <IndicatorElement name="Risk of Loss" :employees="200" :elements-width="[1, 30, 60]"/>
+    <IndicatorElement name="Impact of Loss" :employees="200" :elements-width="[10, 85, 5]"/>
+    <IndicatorElement name="Satisfaction" :employees="200" :elements-width="[1, 8, 10]"/>
+    <IndicatorElement name="Performance" :employees="200" :elements-width="[70, 15, 10]"/>
   </section>
 </template>
 
 <script>
-// eslint-disable-next-line import/extensions,import/no-unresolved
 import IndicatorElement from "../components/IndicatorElement";
 
 export default {
