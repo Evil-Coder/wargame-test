@@ -5,11 +5,11 @@ Vue.use(Vuex);
 
 export default new Vuex.Store({
   state: {
-    selectedIndicator: 0,
+    selectIndicator: 0,
   },
   getters: {
     getSelectedIndicator: s => {
-      return s.selectedIndicator
+      return s.selectIndicator
     }
   },
   mutations: {
