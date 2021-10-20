@@ -1,5 +1,5 @@
 <template>
-  <div class="indicator">
+  <div class="indicator" :class="{indicator_hide: hideIntegration}">
     <p class="indicator__name" v-html="name" ref="indicatorName"/>
 		<div class="indicator__indicator-container">
 			<p class="indicator__info indicator__info_top" :class="[topInfoClass]"
@@ -52,6 +52,16 @@ export default {
       },
 			required: true
     },
+		selectElement: {
+			type: Number,
+			default: 0,
+			required: true
+		},
+		elementIndex: {
+			type: Number,
+			default: 1,
+			required: true
+		}
   },
   data() {
     return {
@@ -67,6 +77,13 @@ export default {
     };
   },
 	computed: {
+		hideIntegration() {
+			const elementWasChosen = this.selectElement !== 0
+			const notCurrentElement = this.selectElement !== this.elementIndex
+
+			return elementWasChosen && notCurrentElement
+		},
+
 		topInfoClass() {
 			return 'indicator__info_' + this.indicatorInfo.name.toLowerCase()
 		}
@@ -110,6 +127,8 @@ export default {
 		hideInfo(e) {
 			this.indicatorInfo.show = false
 			this.showNotSelected(e)
+
+			this.$emit('unchoose')
 		},
 		setInfoPosition(e) {
 			const left = (e.offsetX === undefined) ? e.layerX : e.offsetX;
@@ -139,6 +158,8 @@ export default {
 			}
 			this.hideNotSelected(e)
 			this.showInfo()
+
+			this.$emit('hoverIndicator', this.elementIndex)
 		},
 
 		// Hide not selected
@@ -180,6 +201,9 @@ $not-hover: #808080
 .indicator
 	display: flex
 	align-items: center
+
+	&_hide
+		opacity: 0.08
 
 	&__name
 		color: #1A1A1A
