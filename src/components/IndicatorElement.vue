@@ -3,7 +3,10 @@
     <p class="indicator__name" v-html="name" />
 		<div class="indicator__indicator-container">
 			<template v-show="!indicatorInfo.show">
-				<p class="indicator__info-top">{{indicatorInfo.name}} - {{indicatorInfo.percent}}%</p>
+				<p class="indicator__info-top"
+					 :class="[topInfoClass]">
+					{{indicatorInfo.name}} - {{indicatorInfo.percent}}%
+				</p>
 				<p class="indicator__info-bottom">{{indicatorInfo.employees}} employees</p>
 			</template>
 
@@ -58,6 +61,11 @@ export default {
 			}
     };
   },
+	computed: {
+		topInfoClass() {
+			return 'indicator__info-top_' + this.indicatorInfo.name.toLowerCase()
+		}
+	},
   methods: {
     setIndicatorElements() {
       this.indicatorElements = document.querySelectorAll(".indicator__item");
@@ -113,6 +121,13 @@ export default {
 </script>
 
 <style lang="sass">
+$low: #45E596
+$middle: #FFC44C
+$high: #FF4C4C
+$not: #F2F2F2
+$not-hover: #808080
+
+
 .indicator
 	display: flex
 	align-items: center
@@ -140,21 +155,28 @@ export default {
 		height: 100%
 
 		&_low
-			left: 0
-			background-color: #45E596
-
+			background-color: $low
 		&_middle
-			background-color: #FFC44C
-
+			background-color: $middle
 		&_high
-			background-color: #FF4C4C
-
+			background-color: $high
 		&_not
-			background-color: #F2F2F2
+			background-color: $not
+			&:hover
+				background-color: $not-hover
 
 	&__info-top
 		position: absolute
 		top: -30px
+
+		&_low
+			color: $low
+		&_middle
+			color: $middle
+		&_high
+			color: $high
+		&_not
+			color: $not-hover
 
 	&__info-bottom
 		position: absolute
