@@ -20,7 +20,10 @@ export default {
 .enter-page
 	display: flex
 	flex-direction: column
-	justify-content: space-between
 	flex-grow: 1
 	padding: 100px
+
+	div
+		&:not(:last-child)
+			margin-bottom: 50px
 </style>
