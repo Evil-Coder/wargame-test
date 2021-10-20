@@ -38,19 +38,19 @@ export default {
     name: {
       type: String,
       default: "Name",
-			// required: true
+			required: true
     },
 		employees: {
       type: Number,
       default: 110,
-			// required: true
+			required: true
     },
     elementsWidth: {
       type: Array,
       default() {
         return [30, 15, 15];
       },
-			// required: true
+			required: true
     },
   },
   data() {
@@ -72,6 +72,8 @@ export default {
 		}
 	},
   methods: {
+		// Elements
+
     setIndicatorElements() {
       this.indicatorElements = document.querySelectorAll(".indicator__item");
     },
@@ -94,6 +96,8 @@ export default {
         el.dataset.percent = currentElementPercent
       });
     },
+
+		// Info
 
 		setInfo({name, percent, employees}) {
 			this.indicatorInfo.name = name
@@ -137,7 +141,9 @@ export default {
 			this.showInfo()
 		},
 
-		showNotSelected(e) {
+		// Hide not selected
+
+		showNotSelected() {
 			this.$refs.indicatorName.style.opacity = '1'
 			this.indicatorElements.forEach(el => el.style.opacity = '1')
 		},
@@ -146,6 +152,8 @@ export default {
 			this.indicatorElements.forEach(el => el.style.opacity = '0.08')
 			e.target.style.opacity = '1'
 		},
+
+		// Calculate
 
     calculateWidth(percent) {
       return this.$refs.indicator.offsetWidth * percent / 100;
